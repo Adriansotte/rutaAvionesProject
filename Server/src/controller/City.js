@@ -1,28 +1,9 @@
-import Route from "../model/RouteModel.js";
-
-// Actualiza los atributos de la ciudad en la base de datos dado un modelo ya actualizado
-export const updateWithUpdatedModel = async (updatedRoute) => {
-    try {
-        await Route.update({
-            airTraffic: updatedRoute.airTraffic,
-            routeTime: updatedRoute.routeTime,
-            animalRoute: updatedRoute.animalRoute,
-            totalCost: updatedRoute.totalCost,
-        }, {
-            where: {
-                id: updatedRoute.id
-            }
-        })
-
-    } catch (error) {
-        console.log(error)
-    }
-}
+import City from "../model/CityModel.js";
 
 // Regresa todas las ciudades de la base de datos
 export const getCities = async () => {
     try {
-        return await Route.findAll();
+        return await City.findAll();
 
     } catch (error) {
         console.log(error);
@@ -43,7 +24,7 @@ export const ManageObtainRouteToCity = async (req, res) => {
 const obtainCityById = async (id) => {
     try {
         // Utiliza findOne para obtener un registro que cumpla con la condición especificada
-        const city = await Route.findOne({
+        const city = await City.findOne({
             where: {
                 id: id // Especifica la condición de búsqueda
             }
@@ -57,4 +38,5 @@ const obtainCityById = async (id) => {
         return null;
     }
 }
+
 

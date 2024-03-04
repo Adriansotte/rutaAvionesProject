@@ -28,6 +28,7 @@ Thumbs.db
 *.swp
 *.swo
 *.tmp
+*.iml
 
 # Configuracion de la base de datos
 src/config/database.js
