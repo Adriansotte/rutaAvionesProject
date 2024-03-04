@@ -1,27 +1,28 @@
 import express from "express";
 import bodyParser from "body-parser";
 import router from "./src/routes/index.js";
-import authRouter from "./src/routes/auth.js";
-import session from 'express-session'
-import passport from 'passport';
-import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import graphRoutes from "./src/routes/graphRoutes.js";
 
 const app = express();
 
-//Configuraciones
+// Configuraciones
 app.set('port', process.env.PORT || 3000);
 app.set('json spaces', 2);
+app.set('view engine', 'ejs');
 
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: 'SECRET'
-}));
-
+// Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// Routes
+// Rutas
 app.use(router);
+app.use(graphRoutes);
+app.use(express.static('views/public'));
+
+// Iniciando el servidor, escuchando...
+app.listen(app.get('port'), () => {
+    console.log(`Server listening on port ${app.get('port')}`);
+});
+
