@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron text-center text-primary">
+        <h3><span class="fa fa-lock"></span> Bienvenido devuelta <%= user.email %></h3>
+        <h3><span class="fa fa-lock"></span> Tu apikey es: <%= user.ApiKey.dataValues.code %></h3>
+        <br></br>
+        <form action="/manageApiKeyCreation" method="post">
+            <input type="hidden" name="id" value="<%= user.id %>"/>
+            <button type="submit" class="btn btn-primary">Generate API Key</button>
+        </form>
+        <form class="my-2">
+            <input type="hidden" id="userId" value="<%= user.id %>"/>
+            <button type="button" class="btn btn-success" onclick="upgradeApiKey()">Upgrade API Key</button>
+        </form>
+
+        <form class="my-2">
+            <input type="hidden" id="userId" value="<%= user.id %>"/>
+            <button type="button" class="btn btn-warning" onclick="refreshApiKey()">Refresh API KEY</button>
+        </form>
+    </div>
+    <h3><span class="text-success">Para ver todos los tanques:
+        </span> http://localhost:3000/tanks/ApiKey</h3>
+
+    <h3><span class="text-success">Para ver los tanques por su pais y si son o no premium:
+        </span> http://localhost:3000/tankByNationAndPremium/ApiKey/pais/es_premiun?</h3>
+
+    <h3><span class="text-success">Para ver los tanques por su tipo y su pais de origen:
+        </span> http://localhost:3000/tanksByNationAndType/ApiKey/Pais/tipo_de_tanque</h3>
+    <br>
+    <div class="container mt-4">
+        <a href="/documentation" class="btn btn-success">Ir a documentacion</a>
+    </div>
+    <br>
+    <br>
+</div>
+</body>
+</html>
+
+<script>
+    function sendPutRequest(url, userId) {
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: userId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Abrir una nueva pestaña y mostrar el JSON
+                var newWindow = window.open();
+                newWindow.document.write("<pre>" + JSON.stringify(data, null, 2) + "</pre>");
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function upgradeApiKey() {
+        const userId = document.getElementById('userId').value;
+        sendPutRequest('/manageApiKeyUpgrade', userId);
+    }
+
+    function refreshApiKey() {
+        const userId = document.getElementById('userId').value;
+        sendPutRequest('/manageRefreshApiKey', userId);
+    }
+</script>

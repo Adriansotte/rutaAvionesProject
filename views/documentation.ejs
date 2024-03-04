@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tanques</title>
+    <!-- Incluye Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        .img-fluid {
+            max-width: 100%;
+            height: 60vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h3><span class="text-success">Para ver todos los tanques:</span>
+                http://localhost:3000/tanks/ApiKey</h3>
+            <p>Ejemplo:
+                http://localhost:3000/tanks/B6ZZM7Q-4HPUK7Q-WU5UTRY-EYGDHAI</p>
+            <img src="/img/getTanks.png" alt="Tanque 1" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h3>
+                <span class="text-success">Para ver los tanques por su país y si son o no premium:</span>
+                http://localhost:3000/tankByNationAndPremium/ApiKey/pais/es_premium?</h3>
+            <p>Ejemplo:
+                http://localhost:3000/tankByNationAndPremium/B6ZZM7Q-4HPUK7Q-WU5UTRY-EYGDHAI/germany/true</p>
+            <img src="/img/tankByNationAndPremium.png" alt="Tanque 2" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h3>
+                <span class="text-success">Para ver los tanques por su tipo y su país de origen:</span>
+                http://localhost:3000/tanksByNationAndType/ApiKey/Pais/tipo_de_tanque</h3>
+            <p>Ejemplo:
+                http://localhost:3000/tanksByNationAndType/B6ZZM7Q-4HPUK7Q-WU5UTRY-EYGDHAI/germany/Heavy%20Tank</p>
+            <img src="img/tanksByNationAndType.png" alt="Tanque 3" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
