@@ -15,8 +15,12 @@ class CityGraph {
     // Añade una arista bidireccional con el mismo peso en ambas direcciones
     addEdge(node1, node2, weight) {
         if (!this.nodes.has(node1) || !this.nodes.has(node2)) {
-            throw new Error("No existe uno de los nodos dados");
+            throw new Error("Uno de los nodos no existe ");
         }
+        if (this.edges.get(node1).has(node2) || this.edges.get(node1).has(node2)) {
+            throw new Error("Las rutas ya estan añadidas ");
+        }
+
         this.edges.get(node1).set(node2, weight);
         this.edges.get(node2).set(node1, weight);
     }
