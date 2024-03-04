@@ -28,11 +28,7 @@ const RouteInfoModel = db.define('Route', {
     animalRoute: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-    },
-    totalCost: {
-        type: DataTypes.INTEGER,
-        defaultValue: false
-    },
+    }
 }, {
     freezeTableName: true,
     timestamps: false
