@@ -36,8 +36,9 @@ export const ManageObtainRouteToCity = async (req, res) => {
     if (!id) {
         return null
     }
-
 }
+
+
 
 const obtainCityById = async (id) => {
     try {
@@ -46,6 +47,9 @@ const obtainCityById = async (id) => {
             where: {
                 id: id // Especifica la condición de búsqueda
             }
+
+
+            
         });
         return city;
     } catch (error) {
