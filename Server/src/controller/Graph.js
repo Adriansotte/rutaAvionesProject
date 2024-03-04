@@ -27,9 +27,9 @@ async function generateGraph() {
                 const peso = route.airTraffic + route.routeTime + (route.animalRoute ? 1 : 0);
 
                 // Añade la conexión con su peso a la lista de conexiones
-                conexionesCiudad.push({ 
-                    ciudad: destino.name, 
-                    peso: peso 
+                conexionesCiudad.push({
+                    ciudad: destino.name,
+                    peso: peso
                 });
             }
 
@@ -50,5 +50,82 @@ export const newGraph = async (req, res) => {
         res.json(grafo);
     } catch (error) {
         res.status(500).json({ message: 'Error al generar el grafo', error: error.message });
+    }
+}
+
+const dijkstra = async (ciudadInicial, ciudadFinal) => {
+    try {
+        const grafo = await generateGraph();
+        const pesos = {};
+        const nodosPadre = {};
+        const procesados = [];
+
+        // Inicializar los pesos con infinito para todos los nodos excepto el nodo inicial
+        for (const ciudad in grafo) {
+            pesos[ciudad] = ciudad === ciudadInicial.name ? 0 : Infinity;
+        }
+
+        let ciudadActual = ciudadInicial.name;
+
+        while (ciudadActual) {
+            const conexiones = grafo[ciudadActual];
+
+            for (const conexion of conexiones) {
+                const ciudadDestino = conexion.ciudad;
+                const pesoConexion = conexion.peso;
+
+                // Calcular el nuevo peso
+                const nuevoPeso = pesos[ciudadActual] + pesoConexion;
+
+                // Actualizar el peso y el nodo padre si se encuentra un camino más corto
+                if (nuevoPeso < pesos[ciudadDestino]) {
+                    pesos[ciudadDestino] = nuevoPeso;
+                    nodosPadre[ciudadDestino] = ciudadActual;
+                }
+            }
+
+            procesados.push(ciudadActual);
+
+            // Seleccionar el siguiente nodo con el menor peso no procesado
+            ciudadActual = Object.keys(pesos)
+                .filter(ciudad => !procesados.includes(ciudad))
+                .reduce((a, b) => pesos[a] < pesos[b] ? a : b, null);
+        }
+
+        // Reconstruir la ruta óptima
+        const rutaOptima = [ciudadFinal.name];
+        let nodoPadre = nodosPadre[ciudadFinal.name];
+
+        while (nodoPadre) {
+            rutaOptima.push(nodoPadre);
+            nodoPadre = nodosPadre[nodoPadre];
+        }
+
+        rutaOptima.reverse();
+
+        const resultados = {
+            distancia: pesos[ciudadFinal.name],
+            ruta: rutaOptima
+        };
+
+        return resultados;
+    } catch (error) {
+        throw new Error('Error en el algoritmo de Dijkstra:', error);
+    }
+};
+
+
+
+
+export const findDestination = async (req, res) => {
+    try {
+        const start = await City.findOne({ where: { name: 'Madrid' } });
+        const end = await City.findOne({ where: { name: 'Málaga' } });
+        console.log("Ha generado el grafo");
+        const destination = await dijkstra(start, end);
+        console.log(destination);
+        res.json(destination);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al generar el grafo asds', error: error.message });
     }
 }
