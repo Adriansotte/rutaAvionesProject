@@ -4,7 +4,7 @@ import { newGraph, findDestination } from "../controller/Graph.js";
 const graphRoutes = express.Router();
 
 graphRoutes.get("/graph", newGraph);
-graphRoutes.get("/getRoute", findDestination);
+graphRoutes.post("/calculate-route", findDestination);
 
 
 
