@@ -8,7 +8,7 @@ class ServerConnection:
 
     def get_cities(self):
         """Obtiene la lista de ciudades del servidor."""
-        response = requests.get(f'{self.BASE_URL}/getCities')
+        response = requests.get(f'{self.BASE_URL}/getRoute')
         if response.status_code == 200:
             return response.json()
         else:
