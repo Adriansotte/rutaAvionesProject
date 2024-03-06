@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({
 // Rutas
 app.use(router);
 app.use(graphRoutes);
-app.use(express.static('views/public'));
 
 // Iniciando el servidor, escuchando...
 app.listen(app.get('port'), () => {
