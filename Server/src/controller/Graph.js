@@ -116,15 +116,15 @@ const dijkstra = async (ciudadInicial, ciudadFinal) => {
 
 export const findDestination = async (req, res) => {
     try {
-        const inicio = req.origin;
-        const final = req.destination;
+        const inicio = req.body.origin;
+        const final = req.body.destination;
         
         console.log(inicio);
         console.log(final);
 
 
-        const start = await City.findOne({ where: { name: 'Madrid' } });
-        const end = await City.findOne({ where: { name: 'Málaga' } });
+        const start = await City.findOne({ where: { name: inicio } });
+        const end = await City.findOne({ where: { name: final } });
         console.log("Ha generado el grafo");
         const destination = await dijkstra(start, end);
         console.log(destination);

@@ -8,7 +8,7 @@ class ServerConnection:
 
     def get_cities(self):
         """Obtiene la lista de ciudades del servidor."""
-        response = requests.get(f'{self.BASE_URL}/getRoute')
+        response = requests.get(f'{self.BASE_URL}/getCities')
         if response.status_code == 200:
             return response.json()
         else:
@@ -19,6 +19,7 @@ class ServerConnection:
         response = requests.post(f'{self.BASE_URL}/calculate-route', json={'origin': origin, 'destination': destination})
         if response.status_code == 200:
             # Asume que el servidor devuelve una lista de nombres de ciudades en la ruta
-            return response.json()['route']
+            return response.json()
         else:
+            print(response.status_code)
             raise Exception("Error al obtener la ruta del servidor")

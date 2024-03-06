@@ -32,17 +32,20 @@ def start_simulation(conn, cities):
 
     while True:
         route = conn.get_route(origin, destination)
+        ruta = route['ruta']
+        print(ruta)
+
+        if ruta[0] == destination:
+            print("El avión ha llegado a su destino final.")
+            break
 
         if not route:
             print("No se pudo encontrar una ruta eficiente entre las ciudades seleccionadas.")
             break
 
-        print(f"La ruta más eficiente desde {origin} hasta {destination} es: {', '.join(route)}")
-        if len(route) == 1 and route[0] == destination:
-            print("El avión ha llegado a su destino final.")
-            break
+        print(f"La ruta más eficiente desde {origin} hasta {destination} es: {', '.join(ruta)}")
 
-        origin = route[0]
+        origin = ruta[1]
         print(
             f"El avión se encuentra actualmente en {origin}. Presiona Enter para continuar al siguiente tramo del viaje.")
         input()
