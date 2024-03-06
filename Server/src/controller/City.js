@@ -1,9 +1,9 @@
 import City from "../model/CityModel.js";
 
 // Regresa todas las ciudades de la base de datos
-export const getCities = async () => {
+export const getCities = async (req, res) => {
     try {
-        return await City.findAll();
+         return res.json(await City.findAll());
 
     } catch (error) {
         console.log(error);
