@@ -114,9 +114,6 @@ const dijkstra = async (ciudadInicial, ciudadFinal) => {
     }
 };
 
-
-
-
 export const findDestination = async (req, res) => {
     try {
         const start = await City.findOne({ where: { name: 'Madrid' } });
