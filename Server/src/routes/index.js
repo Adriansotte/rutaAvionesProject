@@ -3,7 +3,7 @@ import {getCities} from "../controller/City.js"
 
 const router = express.Router();
 
-router.post("/getCities", getCities)
+router.get("/getCities", getCities)
 
 
 export default router
