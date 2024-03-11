@@ -1,6 +1,6 @@
 from ServerConnection import ServerConnection
 
-
+# Método el cual lista todas las ciudades.
 def choose_city(cities):
     """Permite al usuario elegir una ciudad ingresando su nombre."""
     city_names = [city['name'] for city in cities]
@@ -17,7 +17,7 @@ def choose_city(cities):
             print(
                 "Por favor, elige una opción válida. Asegúrate de escribir el nombre exactamente como aparece en la lista.")
 
-
+# Metodo el cual enseña la ruta mas rapida al usuario segun la informacion recibida del servidor
 def start_simulation(conn, cities):
     # Solicita al usuario que seleccione la ciudad de origen y destino una sola vez al principio
     print("Bienvenido a la simulación del vuelo.")
