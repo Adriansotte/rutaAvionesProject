@@ -33,7 +33,6 @@ def start_simulation(conn, cities):
     while True:
         route = conn.get_route(origin, destination)
         ruta = route['ruta']
-        print(ruta)
 
         if ruta[0] == destination:
             print("El avión ha llegado a su destino final.")
