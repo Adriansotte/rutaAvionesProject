@@ -1,7 +1,5 @@
 import requests
 
-import requests
-
 
 class ServerConnection:
     BASE_URL = 'http://localhost:3000'

@@ -3,7 +3,7 @@ import City from "../model/CityModel.js";
 // Regresa todas las ciudades de la base de datos
 export const getCities = async (req, res) => {
     try {
-         return res.json(await City.findAll());
+        return res.json(await City.findAll());
 
     } catch (error) {
         console.log(error);
@@ -30,7 +30,7 @@ const obtainCityById = async (id) => {
             }
 
 
-            
+
         });
         return city;
     } catch (error) {
