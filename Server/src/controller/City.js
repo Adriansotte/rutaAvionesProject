@@ -20,7 +20,6 @@ export const ManageObtainRouteToCity = async (req, res) => {
 }
 
 
-
 const obtainCityById = async (id) => {
     try {
         // Utiliza findOne para obtener un registro que cumpla con la condición especificada
@@ -28,7 +27,6 @@ const obtainCityById = async (id) => {
             where: {
                 id: id // Especifica la condición de búsqueda
             }
-
 
 
         });
