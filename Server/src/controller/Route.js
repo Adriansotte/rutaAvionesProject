@@ -11,6 +11,7 @@ export const getRoutes = async () => {
     }
 }
 
+// Actualiza la ruta enviada por parametro de la base de datos
 export const updateWithUpdatedModel = async (updatedRoute) => {
     try {
         await Route.update({

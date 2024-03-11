@@ -7,7 +7,7 @@ async function generateGraph() {
         const grafo = {};
         const ciudades = await City.findAll({
             include: [
-                { model: RouteInfoModel, as: 'OriginRoute' }
+                {model: RouteInfoModel, as: 'OriginRoute'}
             ]
         });
         for (const ciudad of ciudades) {
@@ -29,15 +29,18 @@ async function generateGraph() {
     }
 }
 
+// Crea nuevo grafo
 export const newGraph = async (req, res) => {
     try {
         const grafo = await generateGraph();
         res.json(grafo);
     } catch (error) {
-        res.status(500).json({ message: 'Error al generar el grafo', error: error.message });
+        res.status(500).json({message: 'Error al generar el grafo', error: error.message});
     }
 }
 
+// Genera un grafo, utiliza dijkstra para obtener la ruta mas corta entre dos nodos (ciudades).
+// Luego la regresa
 const dijkstra = async (ciudadInicial, ciudadFinal) => {
     try {
         const grafo = await generateGraph();
@@ -50,10 +53,13 @@ const dijkstra = async (ciudadInicial, ciudadFinal) => {
         let ciudadActual = ciudadInicial.name;
         while (ciudadActual) {
             const conexiones = grafo[ciudadActual];
+
             for (const conexion of conexiones) {
                 const ciudadDestino = conexion.ciudad;
                 const pesoConexion = conexion.peso;
                 const nuevoPeso = pesos[ciudadActual] + pesoConexion;
+
+
                 if (nuevoPeso < pesos[ciudadDestino]) {
                     pesos[ciudadDestino] = nuevoPeso;
                     nodosPadre[ciudadDestino] = ciudadActual;
@@ -64,39 +70,43 @@ const dijkstra = async (ciudadInicial, ciudadFinal) => {
                 .filter(ciudad => !procesados.includes(ciudad))
                 .reduce((a, b) => pesos[a] < pesos[b] ? a : b, null);
         }
+
         const rutaOptima = [ciudadFinal.name];
         let nodoPadre = nodosPadre[ciudadFinal.name];
         while (nodoPadre) {
             rutaOptima.push(nodoPadre);
             nodoPadre = nodosPadre[nodoPadre];
         }
+
         rutaOptima.reverse();
         const resultados = {
             distancia: pesos[ciudadFinal.name],
             ruta: rutaOptima
         };
         return resultados;
+
     } catch (error) {
         throw new Error('Error en el algoritmo de Dijkstra:', error);
     }
 };
 
+// Obtiene el destino a seguir entre una ruta y otra.
 export const findDestination = async (req, res) => {
     try {
         const inicio = req.body.origin;
         const final = req.body.destination;
-        
         console.log(inicio);
         console.log(final);
 
+        const start = await City.findOne({where: {name: inicio}});
+        const end = await City.findOne({where: {name: final}});
 
-        const start = await City.findOne({ where: { name: inicio } });
-        const end = await City.findOne({ where: { name: final } });
         console.log("Ha generado el grafo");
         const destination = await dijkstra(start, end);
         console.log(destination);
         res.json(destination);
+
     } catch (error) {
-        res.status(500).json({ message: 'Error al generar el grafo asds', error: error.message });
+        res.status(500).json({message: 'Error al generar el grafo asds', error: error.message});
     }
 }
